@@ -1,9 +1,65 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-brand: #e50914;
+  --color-brand: #f97316;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --animate-fade-up: fade-up 0.6s ease-out both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Oculta la barra de scroll pero mantiene el desplazamiento */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 body {
   @apply bg-zinc-950 text-zinc-100 antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Barra de progreso del reproductor: input invisible encima de la barra
+   dibujada, solo se ve la "bolita" para arrastrar */
+.seek {
+  appearance: none;
+  background: transparent;
+}
+.seek::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--color-brand);
+}
+.seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--color-brand);
+}
+.seek::-moz-range-track {
+  background: transparent;
 }

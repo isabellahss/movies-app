@@ -1,16 +1,25 @@
-import { Outlet } from 'react-router'
+import { Suspense } from 'react'
+import { Outlet, useLocation } from 'react-router'
+import ErrorBoundary from './ErrorBoundary.tsx'
+import Footer from './Footer.tsx'
 import Header from './Header.tsx'
+import Loading from './Loading.tsx'
 
 function Layout() {
+  const { pathname } = useLocation()
+
   return (
     <div className="flex min-h-dvh flex-col">
       <Header />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
-        <Outlet />
+      <main className="flex-1">
+        {/* Mientras una página espera sus datos se ve el indicador de carga */}
+        <ErrorBoundary resetKey={pathname}>
+          <Suspense fallback={<Loading />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </main>
-      <footer className="border-t border-zinc-800 py-4 text-center text-sm text-zinc-500">
-        Movies App · Proyecto de aprendizaje
-      </footer>
+      <Footer />
     </div>
   )
 }
